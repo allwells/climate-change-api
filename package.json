@@ -4,7 +4,8 @@
   "description": "Climate Change API with NodeJS and Cheerio",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "clear && node index.js",
+    "dev": "clear && nodemon index.js",
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,13 @@
   "bugs": {
     "url": "https://github.com/allwells/climate-change-api/issues"
   },
-  "homepage": "https://github.com/allwells/climate-change-api#readme"
+  "homepage": "https://github.com/allwells/climate-change-api#readme",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "cheerio": "^1.0.0-rc.10",
+    "express": "^4.17.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
 }
