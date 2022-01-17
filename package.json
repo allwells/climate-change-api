@@ -1,0 +1,19 @@
+{
+  "name": "climate-change-api",
+  "version": "1.0.0",
+  "description": "Climate Change API with NodeJS and Cheerio",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/allwells/climate-change-api.git"
+  },
+  "author": "Allwell Onen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/allwells/climate-change-api/issues"
+  },
+  "homepage": "https://github.com/allwells/climate-change-api#readme"
+}
