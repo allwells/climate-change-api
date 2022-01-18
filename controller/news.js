@@ -125,13 +125,13 @@ newsRouter.get("/news", (req, res) => {
     res.json(articles)
 })
 
-newsRouter.get("/news/:newspaperId", async (req, res) => {
+newsRouter.get("/news/:newspaperId",  (req, res) => {
     const newspaperId = req.params.newspaperId
     const newspaperPublisher = newspapers.filter(news => news.publisher === newspaperId)[0].publisher
     const newspaperAddress = newspapers.filter(news => news.publisher === newspaperId)[0].address
     const newspaperBase = newspapers.filter(news => news.publisher === newspaperId)[0].base
 
-    await axios.get(newspaperAddress)
+    axios.get(newspaperAddress)
         .then(response => {
             const html = response.data
             const $ = cheerio.load(html)
