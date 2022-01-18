@@ -3,27 +3,98 @@ const cheerio = require("cheerio")
 const express = require("express")
 const app = express()
 
+const purify = string => {
+    string = string.replaceAll("\n", "").split("").join("")
+    string = string.replaceAll("\t", "").split("").join("")
+    return string
+}
 const articles = []
+const specificArticles = []
 const newspapers = [
     {
         base: "",
-        name: "thetimes",
+        publisher: "thetimes",
         address: "https://www.thetimes.co.uk/environment/climate-change"
     },
     {
         base: "",
-        name: "theguardian",
+        publisher: "cityam",
+        address: "https://www.cityam.com/london-must-become-a-world-leader-on-climate-change-action"
+    },
+    {
+        base: "",
+        publisher: "theguardian",
         address: "https://www.theguardian.com/environment/climate-crisis"
     },
     {
         base: "https://www.telegraph.co.uk",
-        name: "telegraph",
+        publisher: "telegraph",
         address: "https://www.telegraph.co.uk/climate-change"
     },
     {
         base: "https://www.bbc.com",
-        name: "bbc",
+        publisher: "bbc",
         address: "https://www.bbc.com/news/science-environment-56837908"
+    },
+    {
+        base: "",
+        publisher: "nyt",
+        address: "https://www.nytimes.com/international/section/climate"
+    },
+    {
+        base: "https://www.standford.co.uk",
+        publisher: "es",
+        address: "https://www.standford.co.uk/topic/climate-change"
+    },
+    {
+        base: "",
+        publisher: "sun",
+        address: "https://www.thesun.co.uk/topic/climate-change-environment"
+    },
+    {
+        base: "",
+        publisher: "un",
+        address: "https://www.un.org/climatechange"
+    },
+    {
+        base: "",
+        publisher: "nyp",
+        address: "https://www.nypost.com/tag/climate-change"
+    },
+    {
+        base: "https://www.smh.com.au",
+        publisher: "smh",
+        address: "https://www.smh.com.au/environment/climate-change"
+    },
+    {
+        base: "",
+        publisher: "latimes",
+        address: "https://www.latimes.com/environment"
+    },
+    {
+        base: "https://www.foxnews.com",
+        publisher: "fox",
+        address: "https://www.foxnews.com/category/us/environment/climate-change"
+    },
+    {
+        base: "",
+        publisher: "guardian",
+        address: "https://guardian.ng/tag/climate-change"
+    },
+    {
+        base: "",
+        publisher: "climatechange",
+        address: "https://climatechange.gov.ng/category/news"
+    },
+    {
+        base: "",
+        publisher: "environews",
+        address: "https://www.environewsnigeria.com"
+    },
+    {
+        base: "",
+        publisher: "climatechangenews",
+        address: "https://www.climatechangenews.com/news"
     }
 ]
 
@@ -37,8 +108,8 @@ newspapers.forEach(news => {
                     const url = $(this).attr("href")
 
                     articles.push({
-                        publication: news.name,
-                        title: title.replaceAll(" ", "\d").split("").join(""),
+                        publisher: news.publisher,
+                        title: purify(title),
                         url: news.base + url,
                         source: news.address,
                     })
@@ -56,23 +127,22 @@ app.get("/news", (req, res) => {
 
 app.get("/news/:newspaperId", async (req, res) => {
     const newspaperId = req.params.newspaperId
-    const newspaperPublication = newspapers.filter(news => news.name === newspaperId)[0].name
-    const newspaperAddress = newspapers.filter(news => news.name === newspaperId)[0].address
-    const newspaperBase = newspapers.filter(news => news.name === newspaperId)[0].base
+    const newspaperPublisher = newspapers.filter(news => news.publisher === newspaperId)[0].publisher
+    const newspaperAddress = newspapers.filter(news => news.publisher === newspaperId)[0].address
+    const newspaperBase = newspapers.filter(news => news.publisher === newspaperId)[0].base
 
     await axios.get(newspaperAddress)
         .then(response => {
             const html = response.data
             const $ = cheerio.load(html)
-            const specificArticles = []
 
             $("a:contains('climate')", html).each(function () {
                 const title = $(this).text()
                 const url = $(this).attr("href")
 
                 specificArticles.push({
-                    publication: newspaperPublication,
-                    title: title.replaceAll("\n", "").split("").join(""),
+                    publisher: newspaperPublisher,
+                    title: purify(title),
                     url: newspaperBase + url,
                     source: newspaperAddress,
                 })
@@ -80,6 +150,12 @@ app.get("/news/:newspaperId", async (req, res) => {
 
             res.json(specificArticles)
         }).catch(err => console.log(err))
+})
+
+app.get("/*", (req, res) => {
+    res.status(404).json({
+        error: "Unknown endpoint!"
+    })
 })
 
 module.exports = app
