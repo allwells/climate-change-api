@@ -3,7 +3,7 @@ const cheerio = require("cheerio")
 const logger = require("../utils/logger")
 const newsRouter = require("express").Router()
 
-const purify = string => {
+const purify = (string="") => {
     string = string.replaceAll("\n", "").split("").join("")
     string = string.replaceAll("\t", "").split("").join("")
     return string
