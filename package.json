@@ -4,7 +4,7 @@
   "description": "Climate Change API with NodeJS and Cheerio",
   "main": "index.js",
   "scripts": {
-    "start": "clear && node index.js",
+    "start": "node index.js",
     "dev": "clear && nodemon index.js"
   },
   "repository": {

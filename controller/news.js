@@ -1,7 +1,7 @@
 const axios = require("axios")
 const cheerio = require("cheerio")
-const express = require("express")
-const app = express()
+const logger = require("../utils/logger")
+const newsRouter = require("express").Router()
 
 const purify = string => {
     string = string.replaceAll("\n", "").split("").join("")
@@ -114,18 +114,18 @@ newspapers.forEach(news => {
                         source: news.address,
                     })
                 })
-            }).catch(err => console.log(err))
+            }).catch(err => logger.error(err))
 })
 
-app.get("/", (req, res) => {
+newsRouter.get("/", (req, res) => {
     res.send("<h1>Climate Change News API</h1>")
 })
 
-app.get("/news", (req, res) => {
+newsRouter.get("/news", (req, res) => {
     res.json(articles)
 })
 
-app.get("/news/:newspaperId", async (req, res) => {
+newsRouter.get("/news/:newspaperId", async (req, res) => {
     const newspaperId = req.params.newspaperId
     const newspaperPublisher = newspapers.filter(news => news.publisher === newspaperId)[0].publisher
     const newspaperAddress = newspapers.filter(news => news.publisher === newspaperId)[0].address
@@ -149,13 +149,7 @@ app.get("/news/:newspaperId", async (req, res) => {
             })
 
             res.json(specificArticles)
-        }).catch(err => console.log(err))
+        }).catch(err => logger.error(err))
 })
 
-app.get("/*", (req, res) => {
-    res.status(404).json({
-        error: "Unknown endpoint!"
-    })
-})
-
-module.exports = app
+module.exports = newsRouter

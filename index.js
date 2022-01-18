@@ -1,8 +1,8 @@
-const PORT = 3000
+const PORT = 3001
 const http = require("http")
-const app = require("./controller/news")
+const app = require("./app")
 const server = http.createServer(app)
 
-server.listen(port=PORT, backlog=() => {
+server.listen(PORT, () => {
     console.log(`Server running on PORT ${PORT}`)
 })
