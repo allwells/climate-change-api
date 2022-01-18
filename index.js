@@ -1,8 +1,8 @@
 const http = require("http")
 const app = require("./app")
 const server = http.createServer(app)
+const config = require("./utils/config")
 
-const PORT = process.env.PORT || 8000
-server.listen(PORT, () => {
-    console.log(`Server running on PORT ${PORT}`)
+server.listen(config.PORT, () => {
+    console.log(`Server running on PORT ${config.PORT}`)
 })
