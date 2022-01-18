@@ -93,7 +93,7 @@ const newspapers = [
     },
     {
         base: "",
-        publisher: "climatechangenews",
+        publisher: "climatehomenews",
         address: "https://www.climatechangenews.com/news"
     }
 ]
