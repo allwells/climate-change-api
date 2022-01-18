@@ -109,7 +109,7 @@ newspapers.forEach(news => {
 
                     articles.push({
                         publisher: news.publisher,
-                        title: title.replaceAll("\n", "").split("").join(""),
+                        title,
                         url: news.base + url,
                         source: news.address,
                     })
@@ -142,7 +142,7 @@ newsRouter.get("/news/:newspaperId", async (req, res) => {
 
                 specificArticles.push({
                     publisher: newspaperPublisher,
-                    title: title.replaceAll("\n", "").split("").join(""),
+                    title,
                     url: newspaperBase + url,
                     source: newspaperAddress,
                 })
