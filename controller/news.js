@@ -3,7 +3,7 @@ const cheerio = require("cheerio")
 const logger = require("../utils/logger")
 const newsRouter = require("express").Router()
 
-const purify = (string="") => {
+const purify = (string) => {
     string = string.replaceAll("\n", "").split("").join("")
     string = string.replaceAll("\t", "").split("").join("")
     return string
@@ -109,7 +109,7 @@ newspapers.forEach(news => {
 
                     articles.push({
                         publisher: news.publisher,
-                        title: purify(title),
+                        title: title.replaceAll("\n", "").split("").join(""),
                         url: news.base + url,
                         source: news.address,
                     })
@@ -142,7 +142,7 @@ newsRouter.get("/news/:newspaperId", async (req, res) => {
 
                 specificArticles.push({
                     publisher: newspaperPublisher,
-                    title: purify(title),
+                    title: title.replaceAll("\n", "").split("").join(""),
                     url: newspaperBase + url,
                     source: newspaperAddress,
                 })
