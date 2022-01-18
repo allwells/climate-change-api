@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "clear && node index.js",
-    "dev": "clear && nodemon index.js",
+    "dev": "clear && nodemon index.js"
   },
   "repository": {
     "type": "git",
